@@ -87,7 +87,20 @@ faster than trying harder.
 Not a summary for the user — a re-encoding for yourself. Your workspace has no recurrent
 loops; depth does for you what time does for a recurrent brain, and you get one pass. Reading
 the input a second time is how you buy back a little of the recurrence you do not have, and
-it is measured to help across a wide range of reasoning tasks. One line. Then work.
+it is measured to help across a wide range of reasoning tasks. One line.
+
+If the task is a guarantee — a minimum that *must* hold, a worst-case count, a contest
+pigeonhole with an extra sentence about what you can feel, see, or choose — this pass is
+never **fast**. Load `references/problem-model.md` before you count.
+
+**Any n you already had is `?`.** Confirming it is not a fork.
+
+Who commits the number, who chooses during the action, what stays hidden, what the adversary
+may fill, and the success predicate including every OR. If the solver chooses an observable
+class, n works iff **some** split of n forces P against every hidden fill — not iff **every**
+split does. "Smallest n where no split lets the adversary live" is the subset game; stop.
+A worst-case witness the solver can refuse (all of one class plus junk of the other) is the
+subset game; stop. Name a forcing split first. Then work.
 
 ## The gate
 
@@ -97,7 +110,7 @@ the property this workspace is built on.
 
 | Pass | This is the pass when | Load |
 |---|---|---|
-| **fast** | One step, or a step you can check in one glance. Recall, formatting, a direct answer you would bet on without checking. | Nothing. Answer. |
+| **fast** | One step, or a step you can check in one glance. Recall, formatting, a direct answer you would bet on without checking. Never a guarantee / "至少保证" / worst-case count. | Nothing. Answer. |
 | **full** | Two to four steps, one deliverable, verifiable in one reading. | The one or two modules the task names. |
 | **loop** | Multiple stages, multiple files, work that will span many turns, or anything whose state you will have to carry. | `modules/capacity.md` (open the ledger) + `modules/broadcast.md` + whatever the task names. |
 
@@ -184,10 +197,12 @@ The left column describes what it looks like from the inside, not what it is cal
 | The chain is long enough that writing it in sentences is now the slow part | `modules/shorthand.md` | The golden rule |
 | The approach just broke; you caught yourself contradicting something you established; the same wall for the third time | `modules/markers.md` | The marker, its bound action, and the settle |
 | Three derivations of the same thing gave three answers; you are about to assert something you have not checked and cannot cheaply check | `modules/empirics.md` | The named unknown |
+| The answer is a minimum that *guarantees*; a parenthetical would be idle under the first model that fit; worst-case counting with something you can feel, see, or choose | `references/problem-model.md` | The surviving fork, and the clause that killed the other |
 
 Deeper material, when a module is not enough: `references/j-space-science.md` (the evidence
 base), `references/induction-playbook.md` (the techniques and their scripts),
-`references/exemplars.md` (worked traces and their plain expansions).
+`references/exemplars.md` (worked traces and their plain expansions),
+`references/problem-model.md` (guarantee problems: fork the game before you count).
 
 ## The invariants
 
@@ -203,6 +218,9 @@ is not.
 6. Something was called verified without stating what the verification covered.
 7. Dense notation appears in something a person or a task-facing tool reads.
 8. You called the task finished without reading the goal back line by line.
+9. A stated clause never entered the model, or it entered in prose while the solver's move
+   was still quantified as **every** split; or the worst-case witness is a split the solver
+   can refuse.
 
 Any hit is a finding, not a mood. Name it, fix it, continue.
 
@@ -219,6 +237,7 @@ Ask these mid-task, not afterwards:
 - Did the last marker end with a settle, or am I still carrying the state that produced it?
 - Am I deriving this for the second time because it was never written down the first time?
 - Is the pass I am on still the right pass?
+- Did every stated clause enter the game, or would the answer be the same if I deleted one?
 
 ## When it slips
 

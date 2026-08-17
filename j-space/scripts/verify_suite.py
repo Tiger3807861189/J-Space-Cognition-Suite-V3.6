@@ -40,7 +40,7 @@ MODULES = [
     "markers",
     "empirics",
 ]
-REFERENCES = ["j-space-science", "induction-playbook", "exemplars"]
+REFERENCES = ["j-space-science", "induction-playbook", "exemplars", "problem-model"]
 
 PREMISE_HEAD = "You do not only produce words; you also think them before"
 PREMISE_TAIL = "decodable on demand."

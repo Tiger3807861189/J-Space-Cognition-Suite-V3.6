@@ -98,9 +98,16 @@ being derived a fourth time.
 1. **Build the reference.** Use the simplest independent procedure whose assumptions are
    explicit and separately checked — brute force, exhaustive enumeration, small cases worked
    by hand. Treat it as fallible evidence, never as an oracle.
-2. **The reference must not share the candidate's cleverness.** If it inherits the same
-   assumption, it will inherit the same bug and agree with it beautifully. Where they must
-   share an assumption, test that assumption separately and say so.
+2. **The reference must not share the candidate's cleverness, and it must not share the
+   candidate's game or the candidate's quantifiers.** If it inherits the same assumption, it
+   will inherit the same bug and agree with it beautifully. Enumerating every n-subset
+   certifies a subset argument. Searching splits with "n works only when no split has a
+   surviving fill" is the same argument with extra steps: that is **∀** split, the subset
+   game. Typed selection is **∃** split **∀** fill. Print the forcing split; a refuseable
+   split is not a typed-selection witness. Do not aim the script at an n you already had
+   before the fork. Coverage names *which game and which quantifiers* were tested. If a
+   stated clause is still idle, empirics cannot close the fork — hand it to
+   `../references/problem-model.md`.
 3. **State the candidate:** the fast, clever, or compact version you actually want to trust.
 4. **Differential-test.** Same inputs to both. Compare outputs. Sweep small cases, edge cases
    — empty, single, maximum, degenerate — and randomized cases wherever they are cheap.
@@ -127,6 +134,14 @@ being derived a fourth time.
 - **Fallible reference.** The "brute force" contains the same cleverness, and therefore the
   same bug, as the candidate. Remedy: make the reference independent, expose its assumptions,
   and check those assumptions separately.
+- **Model-locked reference.** The brute force searches the same game as the candidate — every
+  subset, when the live fork is typed selection — so they agree, thoroughly, on the wrong
+  n. Remedy: independence includes the fork. Search splits, or walk one adversary policy
+  across every split of n−1. If the unused-clause test is still open, empirics cannot close
+  it.
+- **Inverted-quantifier script.** The sweep prints "adversary survives until n = subset
+  answer" and a witness split the solver can refuse. Remedy: `works(n) = EXISTS split FOR ALL
+  fills P`. Confirming a pre-fork n is not a test.
 - **Shallow sweep.** Three easy cases pass and the thing is declared verified. Remedy: edge
   cases and randomized cases are part of the protocol, and the coverage is stated with the
   conclusion.
@@ -149,3 +164,4 @@ being derived a fourth time.
 | The test ledger has grown | `capacity.md` | What is still open |
 | A verification discipline was cut short | `self-monitoring.md` | What was skipped, plainly |
 | You want the manoeuvre in its original form | `../references/exemplars.md` | The unknown you are parametrizing |
+| The test certified a number, and a stated clause is still idle | `../references/problem-model.md` | The game the sweep actually searched |

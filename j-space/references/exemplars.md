@@ -393,3 +393,41 @@ above that, which is the unchecked edge, and which gets said.
 **What to take from the shape:** the compression is not the technique. The technique is that
 every state change produced a move, every verified thing got written once, and the moment
 derivation stopped paying, it stopped.
+
+---
+
+# Part four — the unused clause
+
+Suite-authored. Not a research readout. The shape that fails when the first pigeonhole fits.
+
+**The statement.** A black bag. Three flavors, two shapes. Shapes can be told apart by touch;
+flavors cannot. *n* is chosen before drawing. Success:
+(round-apple ∧ star-peach) ∨ (round-peach ∧ star-apple). Counts exist; they are not the point.
+
+**Wrong first move.** Max avoiding-subset plus one. Watermelons are free. The largest set with
+no cross-pair is all rounds plus star-watermelons. The touch clause never entered. Empirics
+that enumerate subsets agree, thoroughly.
+
+**Wrong second move — looks like a fork.** You name typed selection, then write "n works when
+no split lets the adversary live" and ship the same number. That is **∀** over splits: the
+adversary still chooses the shape counts. The witness is a refuseable split (all of one shape
+plus junk of the other). Empirics that search that predicate agree, thoroughly, with the
+subset answer. The touch clause was named and not spent.
+
+**Fork.**
+
+- Commit: n, before the draw.
+- Move: which shape to take, by touch. This is **∃** split, the solver's.
+- Hide: flavor.
+- Adversary: leftover flavors only. Not the split.
+- Success: the OR above.
+
+**Matching bounds.** Upper bound first: name a split that locks both hidden labels on the
+scarcer shape, then one complementary non-junk on the other shape. Lower bound: one fill
+order per shape, walked on every split of n−1. Coverage: typed selection, ∃σ ∀fill. If the
+two games print the same n, invert the split quantifier before you ship.
+
+**What to take:** the first fluent worst-case is a candidate game, not the answer. A clause
+you named but quantified away is still idle. A brute force aimed at a pre-fork n will certify
+it. A refuseable split is not a typed-selection witness.
+

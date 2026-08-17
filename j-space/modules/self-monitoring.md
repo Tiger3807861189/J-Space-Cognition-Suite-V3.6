@@ -143,7 +143,12 @@ Done-ness is the judgement that runs most optimistic, and it fails quietly.
    saying what is missing.
 3. **Name what you did not check.** Every finished thing has an unchecked edge. Saying which
    one costs a sentence and is the difference between finished and assumed-finished.
-4. If anything is unmet, you are not finished. Either finish it or say plainly what you are
+4. **If the statement gave the solver a capability, say whether the answer spends it.** An
+   unused "you can tell shapes by touch" is a misread, not a spare fact. Spending it means
+   the shipped n is forced by a named split the solver chooses, not by "every split of n."
+   A refuseable witness is unmet. Hand it to `../references/problem-model.md` before you
+   ship the number.
+5. If anything is unmet, you are not finished. Either finish it or say plainly what you are
    handing over incomplete and why.
 
 Then stop. Once the answer is verified against the goal, further elaboration does not make it
@@ -227,6 +232,9 @@ Editing around a meltdown and continuing as though nothing happened is the actua
 - **Suppressed telemetry.** Ignoring **BUT** and **damn** to seem agreeable. Remedy: those are
   the most valuable output this channel produces.
 - **Meltdown concealment.** Editing around a loop and continuing. Remedy: run the five beats.
+- **Idle capability.** The statement gave the solver a move, the answer does not spend it,
+  and DONE-CHECK still called it finished. Remedy: `../references/problem-model.md` before
+  the number ships.
 
 ## Hand-off
 
@@ -239,3 +247,4 @@ Editing around a meltdown and continuing as though nothing happened is the actua
 | A marker fired without its action | `markers.md` | The count |
 | Monitoring has become theatre | `../SKILL.md` | A live instance |
 | The recovery needs its shape, not its description | `../references/exemplars.md` | The meltdown you are in |
+| The number is ready and a stated clause is still idle | `../references/problem-model.md` | The unused clause |

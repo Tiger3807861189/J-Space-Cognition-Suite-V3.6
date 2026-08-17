@@ -78,6 +78,11 @@ order they were needed.
 have a justification, not a derivation, and the difference shows up on problems you have not
 seen before.
 
+**Four.** Take a guarantee problem. Name one clause that your first model does not use.
+
+**Pass:** you named a second model that spends the clause, and you have not counted yet.
+**Fail:** you already have a number, and deleting the clause would not change it.
+
 ## Protocol
 
 ### RE-ENCODE FIRST — before any non-trivial chain
@@ -87,6 +92,17 @@ seen before.
 3. This is not a courtesy step. Your workspace has no recurrent loops; depth substitutes for
    time and you get one pass over the input. Reading it a second time is how you buy back a
    little of the recurrence you do not have.
+4. **Fork the game when the answer is a guarantee.** Name who commits the number, who
+   chooses during the action, what stays hidden, what the adversary may fill, and the
+   success predicate including every OR. Two readings that produce two numbers are two
+   problems; you do not yet have an answer. Load `../references/problem-model.md` and settle
+   the fork before you count. Any n formed before that file loaded is `?`.
+5. **Unused-clause test.** If a stated parenthetical or "you can tell X by Y" never entered
+   the model, the model is the suspect. Re-fork. Do not count yet. Naming the clause is not
+   spending it: spending it means the solver's move is **∃** split, not **∀** split.
+6. **Upper bound is a named split.** If you cannot write the split that forces P, you are
+   still in the subset game. "Smallest n where no split lets the adversary live" is **∀**
+   over splits — stop and invert the quantifier.
 
 ### LIGHT THE MIDDLE — multi-hop questions
 
@@ -159,6 +175,12 @@ signature there is. Route it to `self-monitoring.md` before it becomes a loop.
 - **Drowning in derivation.** Re-deriving the same sub-problem hoping the next pass will
   clarify. Remedy: declare it and hand it to `empirics.md`. The escape hatch is evidence,
   never more prose.
+- **Idle clause.** A stated capability never entered the model, and you already have a
+  number. Remedy: `../references/problem-model.md`. The first pigeonhole that fits is not
+  the game.
+- **Inverted split quantifier.** You named typed selection, then computed n as the smallest
+  value at which *every* split forces P, or shipped a refuseable split as the worst case.
+  Remedy: n works iff *some* split forces P. Name that split first.
 
 ## Hand-off
 
@@ -167,6 +189,7 @@ signature there is. Route it to `self-monitoring.md` before it becomes a loop.
 | The chain needs compression | `shorthand.md` | The constraints, not the sentences |
 | A step verified, or the frame broke | `markers.md` | Its conclusion, verifier, coverage, and next action — or the broken frame |
 | Derivation stopped producing constraints | `empirics.md` | The named unknown |
+| Two readings of the statement produce two numbers; a clause is still idle | `../references/problem-model.md` | The five fork lines, and the unused clause |
 | The chain outgrew what you can hold | `capacity.md` | Everything you are trying to keep live |
 | Entities recur across sub-tasks | `broadcast.md` | The shared core |
 | The chain is reciting rather than deriving | `../SKILL.md` | A live instance |

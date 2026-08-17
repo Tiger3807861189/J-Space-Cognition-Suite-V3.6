@@ -327,7 +327,7 @@ J-Space-Cognition-Suite-V3.6/
 └── j-space/
     ├── SKILL.md                    # single entry, gate, routing, invariants
     ├── modules/                    # nine selectively loaded protocols
-    ├── references/                 # evidence, induction, and exemplars
+    ├── references/                 # evidence, induction, exemplars, and problem-model
     └── scripts/
         ├── jspace.py               # optional loop controller
         ├── workspace-ledger.md     # ledger template and contract
@@ -375,10 +375,14 @@ This lineage represents repeated engineering validation rather than a sequence o
 
 这条版本轨迹对应的是持续的工程验证，而不是外观性编号。套件经历了多轮修订、受控对比、消融分析、跨模型复现、协议一致性审查和可执行控制器测试。
 
-The current suite is a mature, bounded system: one entry, nine focused modules, three supporting references, one optional runtime controller, one authoring-time verifier, and one standard-library
+The current suite is a mature, bounded system: one entry, nine focused modules, four supporting references, one optional runtime controller, one authoring-time verifier, and one standard-library
 regression suite. Its maturity comes from repeated falsifiable testing and scope discipline, not from adding more procedure.
 
-当前套件已经形成成熟且边界明确的系统：一个入口、九个聚焦模块、三份支撑资料、一个可选运行控制器、一个编写期验证器和一套标准库回归测试。它的成熟度来自可证伪的重复测试与范围纪律，而不是不断增加程序负担。
+当前套件已经形成成熟且边界明确的系统：一个入口、九个聚焦模块、四份支撑资料、一个可选运行控制器、一个编写期验证器和一套标准库回归测试。它的成熟度来自可证伪的重复测试与范围纪律，而不是不断增加程序负担。
+
+`references/problem-model.md` is the on-demand protocol for guarantee / worst-case counting tasks. It forces an actor–adversary fork before any count, so a solver move such as choosing an observable class is not silently rewritten as a blind subset pigeonhole, and empirics cannot certify a pre-fork number by inverting the split quantifier.
+
+`references/problem-model.md` 是保证型 / 最坏计数任务的按需协议。它要求在计数前先分叉行动者与对手，避免把“选手可选择可观察类别”悄悄改写成盲目子集抽屉，也避免用写反的拆分量词把加载前的数字验证成正确答案。
 
 ---
 
