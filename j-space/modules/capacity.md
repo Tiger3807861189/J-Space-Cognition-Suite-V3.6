@@ -149,8 +149,9 @@ Next:      the single next action. Never empty.
 ```
 
 1. **Open it at the start** of any task that will span stages, files, or turns.
-2. **Re-read it at every seam.** This is the whole mechanism. Attention reaches any earlier
-   token equally — but only while that token is still in front of you.
+2. **Re-read it at every seam.** A file write, a denied write, and a tool result are seams.
+   This is the whole mechanism. Attention reaches any earlier token equally — but only while
+   that token is still in front of you.
 3. **Preserve the record.** `Verified` is numbered and append-only so rollback has an address.
    `Goal` and `Next` update as the task moves; `Core` changes only by an explicit swap; an
    `Open` entry closes only against a recorded checkpoint, and its number is never reused.

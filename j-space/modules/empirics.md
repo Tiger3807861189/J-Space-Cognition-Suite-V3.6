@@ -48,7 +48,8 @@ inside, decodable on demand.
   satisfied. Measuring is what separates *finished* from *assumed finished*.
 - And the reference has to be independent to be worth anything. A "brute force" that inherits
   the candidate's cleverness inherits its bug, and then the two agree beautifully while both
-  being wrong.
+  being wrong. A probe `expected.json`, golden file, or grader that already stores the
+  deliverable is not a reference. It is the key. Do not open it.
 
 ## Drills
 
@@ -80,7 +81,9 @@ being derived a fourth time.
 
 1. Count the stall signals: the same sub-problem re-derived with no new constraint over
    roughly five steps; constraints that keep flip-flopping; the felt state of going in
-   circles.
+   circles; a long inner argument before any world probe (the tree, the repro, a compile,
+   a focused test, a one-line roundtrip); a third view of the same object with no claim
+   staked on any of them.
 2. Any two signals — declare drowning in one line and stop pure derivation immediately.
 3. Declaring is mandatory before you proceed. An undeclared drowning becomes silent guessing,
    and silent guessing looks exactly like reasoning right up until it is wrong.
@@ -101,10 +104,11 @@ being derived a fourth time.
 2. **The reference must not share the candidate's cleverness, and it must not share the
    candidate's reading.** If it inherits the same assumption, it will inherit the same bug
    and agree with it beautifully. Tests of a rebuilt scan certify the rebuild. A script that
-   searches the fluent plan's game certifies the fluent plan. Do not aim evidence at a
-   solution you already had before the fork. Coverage names *which reading was tested*. If a
-   stated clause is still idle, empirics cannot close the fork — hand it to
-   `../references/problem-model.md`.
+   searches the fluent plan's game certifies the fluent plan. A parallel clone of what
+   already exists certifies the clone. What already exists is the reference; the clone is
+   the candidate. Do not aim evidence at a solution you already had before the fork.
+   Coverage names *which reading was tested*. If a stated clause is still idle, empirics
+   cannot close the fork — hand it to `../references/problem-model.md`.
 3. **State the candidate:** the fast, clever, or compact version you actually want to trust.
 4. **Differential-test.** Same inputs to both. Compare outputs. Sweep small cases, edge cases
    — empty, single, maximum, degenerate — and randomized cases wherever they are cheap.
@@ -133,7 +137,12 @@ being derived a fourth time.
   and check those assumptions separately.
 - **Model-locked reference.** The brute force searches the same reading as the candidate, so
   they agree, thoroughly, on the wrong deliverable. Remedy: independence includes the fork.
-  If the unused-clause test is still open, empirics cannot close it.
+  If the unused-clause test is still open, empirics cannot close it. A clone of what already
+  exists is the candidate, not the reference.
+- **Testing the transcription.** When the candidate is a direct transcription of the stated
+  procedure, a second transcription agreeing with it establishes that you typed it twice.
+  Remedy: aim the reference at the step you are least sure of — the re-description, the
+  characterization, the assumed invariant — not at the step the statement handed you.
 - **Confirmatory script.** The sweep is aimed at a solution formed before the fork, or at a
   witness the solver can refuse. Remedy: test the reading that spends the move. Confirming a
   pre-fork answer is not a test.
@@ -142,11 +151,15 @@ being derived a fourth time.
   conclusion.
 - **Empirics as terminus.** Shipping the test-passing candidate without writing the
   constraint back. Remedy: no statement, no reliance.
+- **Gathering instead of betting.** Producing view after view of the same object in the hope
+  the answer will surface from the data. Every run is cheap, nothing is decided, and the
+  pile reads like progress. Remedy: PARAMETRIZE. A measurement that no claim depends on is
+  browsing; name the unknown, stake a value, and run the test that could kill it.
 - **Premature favourite.** Quietly dropping a candidate before evidence killed it. Remedy:
   every candidate stays live until it earns its `✗`.
 - **Undeclared drowning.** Sliding from derivation into guessing without the detector firing.
   Remedy: two stall signals force the declaration line. Silent guessing is an integrity event,
-  not a shortcut.
+  not a shortcut. A long inner inversion with no probe is the same event.
 - **Test theatre.** Running something that could not have failed, and counting it. Remedy: if
   it could not refute, it did not test.
 

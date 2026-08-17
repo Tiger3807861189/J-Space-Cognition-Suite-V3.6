@@ -26,6 +26,15 @@ Name five lines in the inner register. Do not implement, count, or patch until t
 If the statement gave a move and your plan deletes it, you are solving a harder problem than
 the one asked. The harder solution is not the answer.
 
+**The description you accept is a Move.** Two descriptions of one object are two problems:
+one where the cases collapse and one where you walk them. Taking the statement's own
+description without examining it hands that choice to the world.
+
+**Stack is a Move.** Language, package, plugin, and test runner follow this repo and the
+host you actually found — not the first fluent rewrite. A parallel clone of what already
+exists deletes the move: you are proving a model of it, not spending it. Follow what is
+there, or fork before you write.
+
 ## Named is not spent
 
 Every parenthetical, every "you can X", every existing tool, every granted write, every
@@ -45,7 +54,12 @@ You named the better reading in prose, then executed the worse one. That pair is
 failure, and it looks like a fork.
 
 - Code: "use the existing tool" in the mouth; a rebuilt scan in the diff; the scan's tests
-  pass.
+  pass. Opening `expected.json` or a grader to learn the name of that tool is the same
+  failure: the grant was not spent, the key was. A write denied by the sandbox, followed by
+  declaring the files done, is the same failure: the move never landed. The repo's language
+  in the mouth; a rewrite in another stack in the diff; the rewrite's tests pass — the same
+  failure: the stack was not spent. What already exists in the mouth; a clone beside it in
+  the diff — the same failure: the grant was not spent.
 - Debug: "the log already has the event" in the mouth; a parallel counter in the patch; the
   counter's tests pass.
 - Count: typed selection in the mouth; **every** split must force P in the script; a

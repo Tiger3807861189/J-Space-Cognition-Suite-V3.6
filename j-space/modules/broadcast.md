@@ -145,6 +145,9 @@ survive to the fourth sub-task.
   Write it now, then continue.
 - **Partial swap.** Updating three sections and forgetting the fourth. Remedy: SINGLE SWAP is
   not finished until the downstream audit passes.
+- **One branch live.** The spec listed two parallel clauses — two APIs, two engines, two
+  error types — and only the first is in the work. Remedy: both names are hub entries before
+  the first write; CONSISTENCY AUDIT fails until both are live.
 - **Hub overload.** Ten "core" items competing for a stage that holds one or two. Remedy: a
   hierarchical hub — two live entries, the rest written into the ledger and reloaded per
   section.
