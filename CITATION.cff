@@ -7,9 +7,6 @@ message: "If you use J-Space in your research, please cite the accompanying pape
 title: "J-Space Cognition Suite V3.6"
 authors:
   - family-names: "Tiger3807861189"
-    given-names: ""
-    orcid: ""
-    affiliation: ""
 date-released: "2026-08-17"
 version: "3.6"
 doi: "10.5281/zenodo.21971181"
