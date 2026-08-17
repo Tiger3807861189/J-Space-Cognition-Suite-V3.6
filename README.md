@@ -380,9 +380,9 @@ regression suite. Its maturity comes from repeated falsifiable testing and scope
 
 当前套件已经形成成熟且边界明确的系统：一个入口、九个聚焦模块、四份支撑资料、一个可选运行控制器、一个编写期验证器和一套标准库回归测试。它的成熟度来自可证伪的重复测试与范围纪律，而不是不断增加程序负担。
 
-`references/problem-model.md` is the on-demand protocol for guarantee / worst-case counting tasks. It forces an actor–adversary fork before any count, so a solver move such as choosing an observable class is not silently rewritten as a blind subset pigeonhole, and empirics cannot certify a pre-fork number by inverting the split quantifier.
+`references/problem-model.md` is the on-demand protocol for settling which problem you are solving when two readings of the same statement fit. It forces a fork — what is fixed, what you may choose, what the world fills, and success including every OR — before you act, so a granted move is not named in prose and deleted in the plan, and empirics cannot certify a fluent-first solution.
 
-`references/problem-model.md` 是保证型 / 最坏计数任务的按需协议。它要求在计数前先分叉行动者与对手，避免把“选手可选择可观察类别”悄悄改写成盲目子集抽屉，也避免用写反的拆分量词把加载前的数字验证成正确答案。
+`references/problem-model.md` 是在同一题面存在两种读法时、先裁定你在解哪一个问题的按需协议。它要求在动手前先分叉：何为锁定、你可选择什么、世界填充什么、成功谓词含每一处“或”。避免把已授予的行动只写在句子里、却在方案中删掉，也避免用流畅的第一解的测试把该解验证成正确答案。
 
 ---
 

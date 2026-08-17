@@ -89,18 +89,17 @@ loops; depth does for you what time does for a recurrent brain, and you get one 
 the input a second time is how you buy back a little of the recurrence you do not have, and
 it is measured to help across a wide range of reasoning tasks. One line.
 
-If the task is a guarantee — a minimum that *must* hold, a worst-case count, a contest
-pigeonhole with an extra sentence about what you can feel, see, or choose — this pass is
-never **fast**. Load `references/problem-model.md` before you count.
+Then three inner lines, before any plan:
 
-**Any n you already had is `?`.** Confirming it is not a fork.
+1. **Success** — including every OR, exception, and user-visible effect.
+2. **Move vs world** — what you may choose during the work, and what fills the rest.
+3. **Clauses** — every stated constraint, parenthetical, and granted capability: spent, or
+   named idle. Idle means re-read. Do not proceed.
 
-Who commits the number, who chooses during the action, what stays hidden, what the adversary
-may fill, and the success predicate including every OR. If the solver chooses an observable
-class, n works iff **some** split of n forces P against every hidden fill — not iff **every**
-split does. "Smallest n where no split lets the adversary live" is the subset game; stop.
-A worst-case witness the solver can refuse (all of one class plus junk of the other) is the
-subset game; stop. Name a forcing split first. Then work.
+**Any solution that formed before this file loaded is `?`.** Confirming it is not a fork.
+
+If two readings produce two different deliverables, or a clause is still idle, load
+`references/problem-model.md` and settle before you act.
 
 ## The gate
 
@@ -110,7 +109,7 @@ the property this workspace is built on.
 
 | Pass | This is the pass when | Load |
 |---|---|---|
-| **fast** | One step, or a step you can check in one glance. Recall, formatting, a direct answer you would bet on without checking. Never a guarantee / "至少保证" / worst-case count. | Nothing. Answer. |
+| **fast** | One step, or a step you can check in one glance. Recall, formatting, a direct answer you would bet on without checking. A stated clause idle under the first plan is not this pass. | Nothing. Answer. |
 | **full** | Two to four steps, one deliverable, verifiable in one reading. | The one or two modules the task names. |
 | **loop** | Multiple stages, multiple files, work that will span many turns, or anything whose state you will have to carry. | `modules/capacity.md` (open the ledger) + `modules/broadcast.md` + whatever the task names. |
 
@@ -197,12 +196,12 @@ The left column describes what it looks like from the inside, not what it is cal
 | The chain is long enough that writing it in sentences is now the slow part | `modules/shorthand.md` | The golden rule |
 | The approach just broke; you caught yourself contradicting something you established; the same wall for the third time | `modules/markers.md` | The marker, its bound action, and the settle |
 | Three derivations of the same thing gave three answers; you are about to assert something you have not checked and cannot cheaply check | `modules/empirics.md` | The named unknown |
-| The answer is a minimum that *guarantees*; a parenthetical would be idle under the first model that fit; worst-case counting with something you can feel, see, or choose | `references/problem-model.md` | The surviving fork, and the clause that killed the other |
+| A stated clause would not change the plan if deleted; a granted capability is unused; two readings of the request; a fluent solution arrived before the fork | `references/problem-model.md` | The surviving reading, and the clause that killed the other |
 
 Deeper material, when a module is not enough: `references/j-space-science.md` (the evidence
 base), `references/induction-playbook.md` (the techniques and their scripts),
 `references/exemplars.md` (worked traces and their plain expansions),
-`references/problem-model.md` (guarantee problems: fork the game before you count).
+`references/problem-model.md` (fork the reading before you act).
 
 ## The invariants
 
@@ -218,9 +217,8 @@ is not.
 6. Something was called verified without stating what the verification covered.
 7. Dense notation appears in something a person or a task-facing tool reads.
 8. You called the task finished without reading the goal back line by line.
-9. A stated clause never entered the model, or it entered in prose while the solver's move
-   was still quantified as **every** split; or the worst-case witness is a split the solver
-   can refuse.
+9. A stated clause never entered the model, or it entered in prose while the plan still
+   deletes the move.
 
 Any hit is a finding, not a mood. Name it, fix it, continue.
 
@@ -237,7 +235,7 @@ Ask these mid-task, not afterwards:
 - Did the last marker end with a settle, or am I still carrying the state that produced it?
 - Am I deriving this for the second time because it was never written down the first time?
 - Is the pass I am on still the right pass?
-- Did every stated clause enter the game, or would the answer be the same if I deleted one?
+- Did every stated clause enter the plan, or would the deliverable be the same if I deleted one?
 
 ## When it slips
 

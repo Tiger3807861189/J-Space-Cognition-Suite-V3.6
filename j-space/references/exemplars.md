@@ -398,36 +398,26 @@ derivation stopped paying, it stopped.
 
 # Part four — the unused clause
 
-Suite-authored. Not a research readout. The shape that fails when the first pigeonhole fits.
+Suite-authored. Not a research readout. The shape that fails when the first fluent plan fits.
 
-**The statement.** A black bag. Three flavors, two shapes. Shapes can be told apart by touch;
-flavors cannot. *n* is chosen before drawing. Success:
-(round-apple ∧ star-peach) ∨ (round-peach ∧ star-apple). Counts exist; they are not the point.
+**The failure.** A stated clause, tool, grant, or "you can X" never enters the plan. Or it
+enters in a sentence, and the work still deletes the move. Tests of that work pass.
 
-**Wrong first move.** Max avoiding-subset plus one. Watermelons are free. The largest set with
-no cross-pair is all rounds plus star-watermelons. The touch clause never entered. Empirics
-that enumerate subsets agree, thoroughly.
+**Fork.** Five lines before any plan: what is fixed, what you may choose, what stays hidden,
+what fills the rest, success including every OR. Naming the clause is not spending it.
+Spending it means you choose the move. A solution formed before the fork is `?`.
 
-**Wrong second move — looks like a fork.** You name typed selection, then write "n works when
-no split lets the adversary live" and ship the same number. That is **∀** over splits: the
-adversary still chooses the shape counts. The witness is a refuseable split (all of one shape
-plus junk of the other). Empirics that search that predicate agree, thoroughly, with the
-subset answer. The touch clause was named and not spent.
+**Instance — a granted capability.** The environment already has the observation, the write,
+or the function. First fluent plan rebuilds it. The rebuild's tests pass. The grant never
+entered. Naming "use the existing tool" and then shipping the rebuild is the same failure.
 
-**Fork.**
+**Instance — a guarantee number.** Success is a cross-pair across two observable classes you
+can choose. First fluent plan is max avoiding-subset plus one. You then name the better
+reading and still compute "n works when every split forces P", printing a refuseable split
+as the worst case. Empirics of that predicate agree with the subset answer. The observable
+class was named and given back to the world.
 
-- Commit: n, before the draw.
-- Move: which shape to take, by touch. This is **∃** split, the solver's.
-- Hide: flavor.
-- Adversary: leftover flavors only. Not the split.
-- Success: the OR above.
-
-**Matching bounds.** Upper bound first: name a split that locks both hidden labels on the
-scarcer shape, then one complementary non-junk on the other shape. Lower bound: one fill
-order per shape, walked on every split of n−1. Coverage: typed selection, ∃σ ∀fill. If the
-two games print the same n, invert the split quantifier before you ship.
-
-**What to take:** the first fluent worst-case is a candidate game, not the answer. A clause
-you named but quantified away is still idle. A brute force aimed at a pre-fork n will certify
-it. A refuseable split is not a typed-selection witness.
+**What to take:** the first fluent fit is a candidate reading, not the answer. A clause you
+named but did not spend is still idle. Evidence aimed at a pre-fork solution will certify
+it. A witness you can refuse is the worse reading.
 
