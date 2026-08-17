@@ -29,7 +29,11 @@ class JSpaceControllerTests(unittest.TestCase):
     def history(self):
         return Path(self.workspace.name) / ".jspace" / "history.json"
 
-    def run_controller(self, *args, stdin=None):
+    def run_controller(self, *args, stdin=None, env=None):
+        environment = None
+        if env:
+            environment = dict(os.environ)
+            environment.update(env)
         return subprocess.run(
             [sys.executable, str(CONTROLLER), *args],
             cwd=self.workspace.name,
@@ -38,6 +42,7 @@ class JSpaceControllerTests(unittest.TestCase):
             encoding="utf-8",
             capture_output=True,
             check=False,
+            env=environment,
         )
 
     def open_ledger(self, goal="Ship verified output", next_action="Inspect inputs"):
@@ -167,6 +172,62 @@ class JSpaceControllerTests(unittest.TestCase):
         declined = self.run_controller("ship", os.fspath(outgoing))
         self.assertEqual(declined.returncode, 2)
         self.assertIn("cannot decode safely", declined.stdout)
+
+    def test_checkpoint_coverage_is_read_in_chinese(self):
+        self.open_ledger()
+        recorded = self.run_controller(
+            "note",
+            "--check",
+            "解析器保持状态",
+            "--by",
+            "单元测试，覆盖全部账本区段与边界输入",
+        )
+        self.assertEqual(recorded.returncode, 0, recorded.stdout + recorded.stderr)
+        self.assertIn("✓01", self.ledger.read_text(encoding="utf-8"))
+
+    def test_coverage_vocabulary_extends_through_the_environment(self):
+        self.open_ledger()
+        french = (
+            "note",
+            "--check",
+            "le parseur conserve son état",
+            "--by",
+            "relecture manuelle de toutes les entrées",
+        )
+
+        refused = self.run_controller(*french)
+        self.assertEqual(refused.returncode, 2)
+        self.assertIn("stated coverage", refused.stdout)
+
+        accepted = self.run_controller(
+            *french, env={"JSPACE_COVERAGE_TERMS": "toutes,chaque,cas limites"}
+        )
+        self.assertEqual(accepted.returncode, 0, accepted.stdout + accepted.stderr)
+        self.assertIn("✓01", self.ledger.read_text(encoding="utf-8"))
+
+    def test_uncovered_claim_is_reported_in_chinese(self):
+        flagged = self.run_controller("ship", "-", stdin="结果已验证，可以交付。")
+        self.assertEqual(flagged.returncode, 0, flagged.stdout + flagged.stderr)
+        self.assertIn("no stated coverage", flagged.stdout)
+
+        clean = self.run_controller(
+            "ship", "-", stdin="结果已验证：全部用例与边界输入均已覆盖。"
+        )
+        self.assertEqual(clean.returncode, 0, clean.stdout + clean.stderr)
+        self.assertIn("clean", clean.stdout)
+
+    def test_stdin_and_file_inspection_agree_on_the_same_bytes(self):
+        outgoing = Path(self.workspace.name) / "outgoing.md"
+        text = "Résultat A ⇒ B ∴ terminé."
+        outgoing.write_text(text, encoding="utf-8")
+
+        from_file = self.run_controller("ship", os.fspath(outgoing))
+        from_stdin = self.run_controller("ship", "-", stdin=text)
+
+        self.assertEqual(from_file.returncode, 0, from_file.stdout + from_file.stderr)
+        self.assertEqual(from_stdin.returncode, 0, from_stdin.stdout + from_stdin.stderr)
+        self.assertIn("inner-register notation", from_file.stdout)
+        self.assertEqual(from_stdin.stdout, from_file.stdout)
 
 
 if __name__ == "__main__":

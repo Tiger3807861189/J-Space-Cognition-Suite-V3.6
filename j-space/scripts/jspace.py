@@ -26,6 +26,13 @@ is write a malformed entry into the ledger, because a ledger you cannot trust is
 worse than no ledger — it looks like state.
 
 Standard library only. No network. Writes exactly one directory: .jspace/
+
+Checkpoint coverage and outgoing claims are recognised in English and Chinese.
+Any other language extends the vocabulary through the environment, as literal
+comma-separated terms:
+
+    JSPACE_COVERAGE_TERMS="toutes,chaque,cas limites,couverture"
+    JSPACE_CLAIM_TERMS="vérifié,confirmé"
 """
 
 import argparse
@@ -75,15 +82,53 @@ class LedgerReadError(Exception):
 # stripping them from good writing costs more than the leak they would catch.
 INNER_ONLY = ["⇒", "⟹", "⟸", "∴", "∵", "⊆", "⊇", "∋", "??", "?!", "💀"]
 MARKERS = ["GRRR", "GAAAH", "PHEW", "I see meltdown", "DATA DATA", "I'M DROWNING"]
-CLAIM = re.compile(r"\b(verified|confirmed|validated|tested|proven)\b", re.I)
-COVERAGE = re.compile(
-    r"(?:\b(?:all|each|every|cases?|inputs?|samples?|bounds?|boundaries|edges?|"
+
+# Claim and coverage vocabularies.
+#
+# The checkpoint gate is deliberate: a checkpoint with no stated coverage is not
+# recorded. That only holds as a gate while the vocabulary can read the language
+# the coverage was written in. Where it cannot, the gate stops separating "no
+# coverage stated" from "coverage stated in a language the pattern cannot read",
+# and refuses a well-formed checkpoint — which is the one thing the controller
+# is not supposed to do.
+#
+# English and Chinese are carried here because the suite is published in both.
+# Any other language extends the vocabulary through the environment rather than
+# by patching this file; see EXTRA_TERMS below.
+CLAIM_EN = r"\b(?:verified|confirmed|validated|tested|proven)\b"
+COVERAGE_EN = (
+    r"\b(?:all|each|every|cases?|inputs?|samples?|bounds?|boundaries|edges?|"
     r"random(?:ized)?|files?|modules?|sections?|lines?|scenarios?|environments?|"
     r"platforms?|datasets?|records?|routes?|commands?|branches?|ranges?|including|"
     r"through|up\s+to|Windows|Linux|macOS|Chrome|Firefox|Safari)\b|"
-    r"\b(?:Python|Node(?:\.js)?)\s*\d|\bn\s*[<≤=]\s*\d)",
-    re.I,
+    r"\b(?:Python|Node(?:\.js)?)\s*\d|\bn\s*[<≤=]\s*\d"
 )
+# Chinese is written without word separators, so \b never fires between a Han
+# character and its neighbour. These alternatives are matched unanchored.
+CLAIM_ZH = r"已验证|已确认|已校验|已测试|验证通过|确认无误"
+COVERAGE_ZH = (
+    r"全部|所有|每个|每一|逐个|逐项|覆盖|用例|边界|极端|随机|"
+    r"包括|包含|全量|各个|范围|场景|分支|模块|文件|环境|平台|数据集"
+)
+
+EXTRA_CLAIM_ENV = "JSPACE_CLAIM_TERMS"
+EXTRA_COVERAGE_ENV = "JSPACE_COVERAGE_TERMS"
+
+
+def extra_terms(name):
+    """Literal comma-separated terms from the environment, escaped for regex use."""
+    raw = os.environ.get(name) or ""
+    return [re.escape(term) for term in (part.strip() for part in raw.split(",")) if term]
+
+
+def vocabulary(*groups):
+    """One case-insensitive pattern over every non-empty alternative group."""
+    alternatives = [group for group in groups if group]
+    return re.compile("(?:" + "|".join(alternatives) + ")", re.I)
+
+
+CLAIM = vocabulary(CLAIM_EN, CLAIM_ZH, *extra_terms(EXTRA_CLAIM_ENV))
+COVERAGE = vocabulary(COVERAGE_EN, COVERAGE_ZH, *extra_terms(EXTRA_COVERAGE_ENV))
 
 
 # ------------------------------------------------------------------------- ledger
@@ -568,13 +613,8 @@ def mode_ship(text):
     return 0
 
 
-def read_outgoing(path):
-    """Read outgoing text without silently accepting an unknown or binary encoding."""
-    try:
-        with open(path, "rb") as fh:
-            data = fh.read()
-    except OSError as exc:
-        return None, "%s (%s)" % (path, exc.strerror or "unreadable")
+def decode_outgoing(data, origin):
+    """Decode outgoing bytes without silently accepting an unknown or binary encoding."""
     try:
         if data.startswith(codecs.BOM_UTF8):
             text = data.decode("utf-8-sig")
@@ -587,8 +627,31 @@ def read_outgoing(path):
             if "\x00" in text:
                 raise UnicodeError("NUL bytes suggest an unsupported encoding")
     except UnicodeError as exc:
-        return None, "%s (cannot decode safely: %s)" % (path, exc)
+        return None, "%s (cannot decode safely: %s)" % (origin, exc)
     return text, None
+
+
+def read_outgoing(path):
+    """Read outgoing text from a file, decoded the same way for every source."""
+    try:
+        with open(path, "rb") as fh:
+            data = fh.read()
+    except OSError as exc:
+        return None, "%s (%s)" % (path, exc.strerror or "unreadable")
+    return decode_outgoing(data, path)
+
+
+def read_outgoing_stdin():
+    """Read outgoing text from stdin as bytes.
+
+    Reading the text stream instead would decode through the ambient locale, so
+    the same UTF-8 input inspected as a file and piped through `-` would not
+    produce the same findings.
+    """
+    stream = getattr(sys.stdin, "buffer", None)
+    if stream is None:
+        return sys.stdin.read(), None
+    return decode_outgoing(stream.read(), "stdin")
 
 
 def configure_streams():
@@ -632,8 +695,9 @@ def main(argv=None):
 
     if args.cmd == "ship":
         if args.file == "-":
-            return mode_ship(sys.stdin.read())
-        text, problem = read_outgoing(args.file)
+            text, problem = read_outgoing_stdin()
+        else:
+            text, problem = read_outgoing(args.file)
         if problem:
             print("CANNOT: " + problem + ".")
             print("  pass a readable file, or - to read stdin")
