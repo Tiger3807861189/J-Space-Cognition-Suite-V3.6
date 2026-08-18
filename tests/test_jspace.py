@@ -145,6 +145,39 @@ class JSpaceControllerTests(unittest.TestCase):
         self.assertIn("ledger was unreadable", result.stdout)
         self.assertNotIn("Traceback", result.stderr)
 
+    def test_ship_skips_section_headings_but_flags_claims(self):
+        heading = self.run_controller("ship", "-", stdin="## Verified\n")
+        self.assertEqual(heading.returncode, 0, heading.stdout + heading.stderr)
+        self.assertIn("clean", heading.stdout)
+
+        claimed = self.run_controller(
+            "ship", "-", stdin="## Verified\nResult verified by intuition\n"
+        )
+        self.assertEqual(claimed.returncode, 0, claimed.stdout + claimed.stderr)
+        self.assertIn('"verified" with no stated coverage', claimed.stdout)
+
+    def test_chinese_coverage_is_accepted(self):
+        self.open_ledger()
+        accepted = self.run_controller(
+            "note",
+            "--check",
+            "结构核对完成",
+            "--by",
+            "直接取证, 覆盖: 所有文件与目录",
+        )
+        self.assertEqual(accepted.returncode, 0, accepted.stdout + accepted.stderr)
+        self.assertIn("✓01", accepted.stdout)
+
+        refused = self.run_controller(
+            "note",
+            "--check",
+            "结构核对完成",
+            "--by",
+            "grep 输出",
+        )
+        self.assertEqual(refused.returncode, 2)
+        self.assertIn("without stated coverage", refused.stdout)
+
     def test_history_recovery_and_register_inspection(self):
         self.open_ledger()
         self.history.write_text("{}", encoding="utf-8")

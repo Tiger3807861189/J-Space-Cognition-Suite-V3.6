@@ -81,7 +81,13 @@ COVERAGE = re.compile(
     r"random(?:ized)?|files?|modules?|sections?|lines?|scenarios?|environments?|"
     r"platforms?|datasets?|records?|routes?|commands?|branches?|ranges?|including|"
     r"through|up\s+to|Windows|Linux|macOS|Chrome|Firefox|Safari)\b|"
-    r"\b(?:Python|Node(?:\.js)?)\s*\d|\bn\s*[<≤=]\s*\d)",
+    r"\b(?:Python|Node(?:\.js)?)\s*\d|\bn\s*[<≤=]\s*\d|"
+    # CJK coverage terms. Chinese has no inter-word spaces, so these match as
+    # substrings without \b. Multi-character terms only: bare single characters
+    # like 行/各/含 would false-match ordinary prose (行动/各自/含义).
+    r"(?:覆盖|全部|所有|每个|每条|各条|每项|用例|输入|样本|样例|边界|上下限|上限|下限|"
+    r"文件|目录|模块|章节|分段|行数|行号|场景|环境|平台|数据集|记录|路由|命令|分支|"
+    r"范围|包括|包含|浏览器|至多|至少|最多|最少|逐一|逐条))",
     re.I,
 )
 
@@ -543,6 +549,8 @@ def mode_ship(text):
         findings.append("state markers in outgoing text: " + ", ".join(hot))
 
     for n, line in enumerate(lines, 1):
+        if line.lstrip().startswith("#"):
+            continue  # headings are structure, not coverage-less claims
         if CLAIM.search(line) and not COVERAGE.search(line):
             findings.append('line %d: "verified" with no stated coverage' % n)
             break
