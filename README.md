@@ -178,6 +178,10 @@ After installation, the suite exposes one canonical entry named `j-space`; a hos
 
 安装后，套件只提供一个规范入口 `j-space`；宿主可以将其显示为 `/j-space`，也可以通过自身的 Skill 界面选择它。Python 控制器是可选组件，并且只使用标准库。
 
+On DeepSeek Harness, install at `~/.dsh/skills/j-space`. The host `skill` tool returns `SKILL.md` only; routed `modules/` and `references/` files load with the host `read` tool against the skill base directory.
+
+在 DeepSeek Harness 上安装到 `~/.dsh/skills/j-space`。宿主的 `skill` 工具只返回 `SKILL.md`；路由到的 `modules/` 与 `references/` 文件要用宿主 `read` 工具、相对技能基目录打开。
+
 ---
 
 ## Operating modes | 运行模式

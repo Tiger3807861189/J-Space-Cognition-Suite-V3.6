@@ -5,7 +5,9 @@ answer yet. You have a fork. Settle the fork before you act.
 
 Load this whenever a stated clause might sit idle, a capability was granted, success has an
 OR or an exception, two architectures both "fit", or a fluent solution arrived before this
-file. Then return to `modules/deep-reasoning.md` and work inside the surviving reading.
+file. On a tool-using host, load means a `read` of this file against the skill base
+directory, not a restatement of the entry. Then return to `modules/deep-reasoning.md` and
+work inside the surviving reading.
 
 **Any solution you already had before this file loaded is `?`.** Fluency fires first.
 Confirming that solution is not a fork. Do not aim tests at it. Derive from the five lines.
