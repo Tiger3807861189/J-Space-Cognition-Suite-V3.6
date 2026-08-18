@@ -178,6 +178,10 @@ After installation, the suite exposes one canonical entry named `j-space`; a hos
 
 安装后，套件只提供一个规范入口 `j-space`；宿主可以将其显示为 `/j-space`，也可以通过自身的 Skill 界面选择它。Python 控制器是可选组件，并且只使用标准库。
 
+On DeepSeek Harness, install at `~/.dsh/skills/j-space`. The host `skill` tool returns `SKILL.md` only; routed `modules/` and `references/` files load with the host `read` tool against the skill base directory.
+
+在 DeepSeek Harness 上安装到 `~/.dsh/skills/j-space`。宿主的 `skill` 工具只返回 `SKILL.md`；路由到的 `modules/` 与 `references/` 文件要用宿主 `read` 工具、相对技能基目录打开。
+
 ---
 
 ## Operating modes | 运行模式
@@ -327,7 +331,7 @@ J-Space-Cognition-Suite-V3.6/
 └── j-space/
     ├── SKILL.md                    # single entry, gate, routing, invariants
     ├── modules/                    # nine selectively loaded protocols
-    ├── references/                 # evidence, induction, and exemplars
+    ├── references/                 # evidence, induction, exemplars, and problem-model
     └── scripts/
         ├── jspace.py               # optional loop controller
         ├── workspace-ledger.md     # ledger template and contract
@@ -375,10 +379,14 @@ This lineage represents repeated engineering validation rather than a sequence o
 
 这条版本轨迹对应的是持续的工程验证，而不是外观性编号。套件经历了多轮修订、受控对比、消融分析、跨模型复现、协议一致性审查和可执行控制器测试。
 
-The current suite is a mature, bounded system: one entry, nine focused modules, three supporting references, one optional runtime controller, one authoring-time verifier, and one standard-library
+The current suite is a mature, bounded system: one entry, nine focused modules, four supporting references, one optional runtime controller, one authoring-time verifier, and one standard-library
 regression suite. Its maturity comes from repeated falsifiable testing and scope discipline, not from adding more procedure.
 
-当前套件已经形成成熟且边界明确的系统：一个入口、九个聚焦模块、三份支撑资料、一个可选运行控制器、一个编写期验证器和一套标准库回归测试。它的成熟度来自可证伪的重复测试与范围纪律，而不是不断增加程序负担。
+当前套件已经形成成熟且边界明确的系统：一个入口、九个聚焦模块、四份支撑资料、一个可选运行控制器、一个编写期验证器和一套标准库回归测试。它的成熟度来自可证伪的重复测试与范围纪律，而不是不断增加程序负担。
+
+`references/problem-model.md` is the on-demand protocol for settling which problem you are solving when two readings of the same statement fit. It forces a fork — what is fixed, what you may choose, what the world fills, and success including every OR — before you act, so a granted move is not named in prose and deleted in the plan, and empirics cannot certify a fluent-first solution.
+
+`references/problem-model.md` 是在同一题面存在两种读法时、先裁定你在解哪一个问题的按需协议。它要求在动手前先分叉：何为锁定、你可选择什么、世界填充什么、成功谓词含每一处“或”。避免把已授予的行动只写在句子里、却在方案中删掉，也避免用流畅的第一解的测试把该解验证成正确答案。
 
 ---
 

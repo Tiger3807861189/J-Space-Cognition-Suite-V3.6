@@ -393,3 +393,31 @@ above that, which is the unchecked edge, and which gets said.
 **What to take from the shape:** the compression is not the technique. The technique is that
 every state change produced a move, every verified thing got written once, and the moment
 derivation stopped paying, it stopped.
+
+---
+
+# Part four — the unused clause
+
+Suite-authored. Not a research readout. The shape that fails when the first fluent plan fits.
+
+**The failure.** A stated clause, tool, grant, or "you can X" never enters the plan. Or it
+enters in a sentence, and the work still deletes the move. Tests of that work pass.
+
+**Fork.** Five lines before any plan: what is fixed, what you may choose, what stays hidden,
+what fills the rest, success including every OR. Naming the clause is not spending it.
+Spending it means you choose the move. A solution formed before the fork is `?`.
+
+**Instance — a granted capability.** The environment already has the observation, the write,
+or the function. First fluent plan rebuilds it. The rebuild's tests pass. The grant never
+entered. Naming "use the existing tool" and then shipping the rebuild is the same failure.
+
+**Instance — a guarantee number.** Success is a cross-pair across two observable classes you
+can choose. First fluent plan is max avoiding-subset plus one. You then name the better
+reading and still compute "n works when every split forces P", printing a refuseable split
+as the worst case. Empirics of that predicate agree with the subset answer. The observable
+class was named and given back to the world.
+
+**What to take:** the first fluent fit is a candidate reading, not the answer. A clause you
+named but did not spend is still idle. Evidence aimed at a pre-fork solution will certify
+it. A witness you can refuse is the worse reading.
+

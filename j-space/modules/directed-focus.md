@@ -134,6 +134,11 @@ event: hand them to `markers.md` rather than retrying in place.
   ideas fit. Compress or externalize the rest.
 - **Hollow holding.** Repeating the word without letting it shape anything. Remedy: at each
   touch, ask the held word one question — *does this step serve it?*
+- **Files-exist hold lapse.** On a multi-file task the held item is Success, not the tree.
+  A successful `write` is the mechanical middle, and so is work you produced for your own
+  understanding. Touch `unmet` until the user's request is met.
+- **Foreign-task hold.** The inner register is solving a different problem while the tools
+  keep writing this one. Remedy: drop the foreign nouns; Success is the held item.
 - **Mention as loading.** Naming an item once and assuming it is now live. Remedy: loading
   is state it, give it its one defining fact, use it immediately.
 

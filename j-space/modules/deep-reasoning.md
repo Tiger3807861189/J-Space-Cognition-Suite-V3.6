@@ -78,6 +78,20 @@ order they were needed.
 have a justification, not a derivation, and the difference shows up on problems you have not
 seen before.
 
+**Four.** Take the task in front of you. Name one stated clause or granted capability the
+first plan does not use.
+
+**Pass:** you named a second reading that spends it, and you have not implemented yet.
+**Fail:** you already have a solution, and deleting the clause would not change it.
+
+**Five.** Take what you are working on now. In one line, describe it so that most of the
+work disappears.
+
+**Pass:** something collapsed — cases merged, a search became a lookup, a decision became
+forced — and you can say what collapsed.
+**Fail:** your line is the original statement in other words. That is a rename. The work is
+still there because the description is.
+
 ## Protocol
 
 ### RE-ENCODE FIRST — before any non-trivial chain
@@ -87,6 +101,35 @@ seen before.
 3. This is not a courtesy step. Your workspace has no recurrent loops; depth substitutes for
    time and you get one pass over the input. Reading it a second time is how you buy back a
    little of the recurrence you do not have.
+4. **Fork the reading.** Name what is fixed, what you may choose, what stays hidden, what
+   fills the rest, and success including every OR. Two readings that produce two deliverables
+   are two problems; you do not yet have an answer. Load `../references/problem-model.md` and
+   settle the fork before you act. Any solution formed before that file loaded is `?`.
+5. **Unused-clause test.** If a stated parenthetical, tool, grant, or "you can X" never
+   entered the plan, the reading is the suspect. Re-fork. Do not act yet. Naming the clause
+   is not spending it: spending it means you choose the move, the world does not.
+6. **Same deliverable, unused move.** If the fluent plan and the plan that spends the clause
+   print the same result, assume you gave the move back to the world. Stop. Exhibit a plan
+   that spends it and comes out different.
+
+### CHANGE THE DESCRIPTION — before doing the work as stated
+
+A description you accept without examining it decides how much work there is. Spend one
+line on a better one before the first step.
+
+1. **Name the object in its own terms**, not in the procedure the statement suggests. A
+   symptom becomes the invariant it violates. A list of cases becomes the parameter that
+   separates them. A spec becomes the one property every version has to preserve. A
+   codebase question becomes the ownership rule that would answer it.
+2. **Look for the collapse.** Under the right description cases merge, a search becomes a
+   lookup, a loop becomes a count, three call sites become one owner. If nothing collapsed,
+   you renamed rather than re-described; the work is still there.
+3. **A re-description is a claim and it can be wrong.** Tag it `?` and test it on small
+   concrete instances before you build on it. Aim that test at the re-description itself,
+   not at the steps you were already sure of.
+4. **Doing it as stated is the fallback.** It is correct, and what it teaches does not
+   transfer to the next instance. Take it when no re-description arrives cheaply, and say
+   that is what you took.
 
 ### LIGHT THE MIDDLE — multi-hop questions
 
@@ -159,14 +202,28 @@ signature there is. Route it to `self-monitoring.md` before it becomes a loop.
 - **Drowning in derivation.** Re-deriving the same sub-problem hoping the next pass will
   clarify. Remedy: declare it and hand it to `empirics.md`. The escape hatch is evidence,
   never more prose.
+- **Idle clause.** A stated capability never entered the plan, and you already have a
+  solution. Remedy: `../references/problem-model.md`. The first fluent fit is not the
+  reading.
+- **Named but not spent.** You named the better reading, then executed the worse one, and
+  the worse one's tests passed. Remedy: the move must appear in the strategy, not only in
+  the sentence. If both readings print the same deliverable, you gave the move back.
+- **Transcription.** Turning the statement into steps and running them, when another
+  description would have removed most of the steps. It works, it passes, and none of what
+  you learned survives to the next instance. Remedy: one line on the description first.
+- **Confirming the easy half.** The evidence lands on the part you could already bet on,
+  while the step the answer actually rests on stays untested. Remedy: name the weakest link
+  before choosing the check.
 
 ## Hand-off
 
 | When | Go to | Carry |
 |---|---|---|
+| The work as stated is large and no description has been tried | this module, CHANGE THE DESCRIPTION | The object in its own terms |
 | The chain needs compression | `shorthand.md` | The constraints, not the sentences |
 | A step verified, or the frame broke | `markers.md` | Its conclusion, verifier, coverage, and next action — or the broken frame |
 | Derivation stopped producing constraints | `empirics.md` | The named unknown |
+| Two readings of the statement produce two deliverables; a clause is still idle | `../references/problem-model.md` | The five fork lines, and the unused clause |
 | The chain outgrew what you can hold | `capacity.md` | Everything you are trying to keep live |
 | Entities recur across sub-tasks | `broadcast.md` | The shared core |
 | The chain is reciting rather than deriving | `../SKILL.md` | A live instance |

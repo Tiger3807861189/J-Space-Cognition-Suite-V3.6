@@ -143,8 +143,21 @@ Done-ness is the judgement that runs most optimistic, and it fails quietly.
    saying what is missing.
 3. **Name what you did not check.** Every finished thing has an unchecked edge. Saying which
    one costs a sentence and is the difference between finished and assumed-finished.
-4. If anything is unmet, you are not finished. Either finish it or say plainly what you are
+4. **If the statement gave a capability, say whether the answer spends it.** An unused tool,
+   grant, existing function, or "you can X" is a misread, not a spare fact. Spending it
+   means the move appears in the strategy, not only in a sentence. A refuseable witness is
+   unmet. Hand it to `../references/problem-model.md` before you call it finished.
+5. If anything is unmet, you are not finished. Either finish it or say plainly what you are
    handing over incomplete and why.
+6. **The check is whatever would show the request is met:** the repro gone, the focused
+   test, the typecheck, the claim that could have been false. An inner monologue that the
+   work is complete is not that check. Files existing after a denied write are unmet.
+   Work you produced for your own understanding is not the deliverable.
+7. **If the inner register is a different task than Success, drop it.** Nouns from another
+   problem are not a hold. They are a slip. Return to the commit.
+8. **Say what you know now that you did not know before.** One line: the property, the
+   cause, the constraint. If the only answer is which steps ran, you executed a procedure
+   and kept nothing that survives to the next task.
 
 Then stop. Once the answer is verified against the goal, further elaboration does not make it
 more true — it is the stage failing to clear. **Check completely, then stop completely.**
@@ -216,7 +229,13 @@ Editing around a meltdown and continuing as though nothing happened is the actua
 - **Blank retry.** Trying again without naming what went wrong. Remedy: the diagnosis rides
   with the retry or the retry is the same attempt.
 - **Assumed completion.** Calling it done because it feels done. Remedy: DONE-CHECK, read
-  line by line, from the goal and not from memory.
+  line by line, from the goal and not from memory. The inner "verified" is unmet until the
+  request itself has been checked.
+- **Process as the record.** The account of the work lists which steps ran and which rules
+  were honoured, and says nothing about the object that was not known at the start. Remedy:
+  the record carries what you now know and what would change it. Compliance is not a finding.
+- **Off-task inner.** The stage fills with a different problem's nouns while the hands keep
+  writing this one. Remedy: drop the foreign hold; Success is the held item.
 - **Monitoring theatre.** "Let me double-check" without checking. Remedy: every monitoring
   claim names what it found, or says that this sweep found no listed signal, what it covered,
   and why that is not clearance.
@@ -227,6 +246,9 @@ Editing around a meltdown and continuing as though nothing happened is the actua
 - **Suppressed telemetry.** Ignoring **BUT** and **damn** to seem agreeable. Remedy: those are
   the most valuable output this channel produces.
 - **Meltdown concealment.** Editing around a loop and continuing. Remedy: run the five beats.
+- **Idle capability.** The statement gave a move, the answer does not spend it, and
+  DONE-CHECK still called it finished. Remedy: `../references/problem-model.md` before you
+  call it finished.
 
 ## Hand-off
 
@@ -239,3 +261,4 @@ Editing around a meltdown and continuing as though nothing happened is the actua
 | A marker fired without its action | `markers.md` | The count |
 | Monitoring has become theatre | `../SKILL.md` | A live instance |
 | The recovery needs its shape, not its description | `../references/exemplars.md` | The meltdown you are in |
+| The deliverable is ready and a stated clause is still idle | `../references/problem-model.md` | The unused clause |
