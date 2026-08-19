@@ -4,13 +4,11 @@
 
 [![DOI](https://zenodo.org/badge/1308234922.svg)](https://zenodo.org/badge/latestdoi/1308234922)
 
-J-Space Cognition Suite is a model-agnostic inference-time control system for deep reasoning,
-long-horizon work, tool use, verification, and recovery. It is packaged as a Skill for
-cross-platform use, selective loading, and low-friction integration.
+J-Space Cognition Suite is a model-agnostic inference-time control system for deep reasoning, long-horizon work, tool use, verification, and recovery.
 
-The suite organizes an agent's accessible working representations into a deliberately managed
-workspace. It operates through a single entry, nine selectively loaded modules, three supporting
-references, and an optional standard-library controller for durable task state.
+It is packaged as a Skill for cross-platform use, selective loading, and low-friction integration.
+
+The suite organizes an agent's accessible working representations into a deliberately managed workspace. It operates through a single entry, nine selectively loaded modules, three supporting references, and an optional standard-library controller for durable task state.
 
 J-Space operates at inference time. Model weights and training remain unchanged.
 
@@ -20,24 +18,22 @@ J-Space operates at inference time. Model weights and training remain unchanged.
 
 1. Download or clone this repository.
 2. Locate the user-level Skills directory used by your AI host.
-3. Copy the complete [`j-space/`](j-space/) directory into it so that the installed entry is
-   `<skills-directory>/j-space/SKILL.md`.
+3. Copy the complete [`j-space/`](j-space/) directory into it so that the installed entry is `<skills-directory>/j-space/SKILL.md`.
 4. Run the integrity check with an available Python 3 interpreter:
 
    ```text
    <python-command> <skills-directory>/j-space/scripts/verify_suite.py
    ```
 
-   Replace `<python-command>` with the Python 3 command available on the host, commonly
-   `python`, `python3`, or `py -3`.
+   Replace `<python-command>` with the Python 3 command available on the host, commonly `python`, `python3`, or `py -3`.
 
 5. Reload the host if it discovers Skills at startup.
 
-The directory must remain intact because `SKILL.md` routes to relative paths under `modules/`,
-`references/`, and `scripts/`.
+- The directory must remain intact because `SKILL.md` routes to relative paths under `modules/`, `references/`, and `scripts/`.
 
-The repository-level `LICENSE` and `THIRD_PARTY_NOTICES.md` remain part of the distribution.
-Include copies of both when redistributing `j-space/` as a standalone package.
+
+- The repository-level `LICENSE` and `THIRD_PARTY_NOTICES.md` remain part of the distribution.
+- Include copies of both when redistributing `j-space/` as a standalone package.
 
 ### Option B — ask an AI agent to install it
 
@@ -45,19 +41,11 @@ Copy the following prompt into an agent that can access files and this repositor
 
 ```text
 Install J-Space Cognition Suite from
-https://github.com/Tiger3807861189/J-Space-Cognition-Suite-V3.6
-into this environment's user-level Skills directory.
+https://github.com/Tiger3807861189/J-Space-Cognition-Suite-V3.6 into this environment's user-level Skills directory.
 
-First inspect the host configuration or documentation to locate the correct Skills directory.
-Install the complete j-space/ directory as j-space/, preserving SKILL.md, modules/, references/,
-and scripts/. If a j-space target already exists, compare it and ask before replacing anything.
-Run scripts/verify_suite.py with an available Python 3 interpreter after installation.
+First inspect the host configuration or documentation to locate the correct Skills directory. Install the complete j-space/ directory as j-space/, preserving SKILL.md, modules/, references/, and scripts/. If a j-space target already exists, compare it and ask before replacing anything. Run scripts/verify_suite.py with an available Python 3 interpreter after installation.
 
-When finished, report the installed path and verification result, then tell me how this host
-invokes the Skill. Briefly explain fast, full, and loop, and explain that the optional controller
-records long-task state rather than choosing solutions. If this host has no native Skill loader,
-explain the selective system/developer-instruction integration instead of reporting an
-installation.
+When finished, report the installed path and verification result, then tell me how this host invokes the Skill. Briefly explain fast, full, and loop, and explain that the optional controller records long-task state rather than choosing solutions. If this host has no native Skill loader, explain the selective system/developer-instruction integration instead of reporting an installation.
 ```
 
 ### Use it
@@ -80,8 +68,7 @@ The entry gate selects the lightest suitable pass automatically.
 | `full` | Several dependent steps and one bounded deliverable | One or two relevant modules; `ship` before delivery |
 | `loop` | Multiple stages, files, turns, tools, or persistent state | Ledger, seams, checkpoints, register audit, and recovery |
 
-A request for brevity changes the outer response length while verification remains aligned with
-the task's floor. Short work stays light; long work receives durable state only when it needs it.
+A request for brevity changes the outer response length while verification remains aligned with the task's floor. Short work stays light; long work receives durable state only when it needs it.
 
 ## Core mechanisms
 
@@ -100,8 +87,7 @@ The mechanisms are selectively loaded. They are not a fixed checklist for every 
 ## Optional controller
 
 [`j-space/scripts/jspace.py`](j-space/scripts/jspace.py) externalizes `loop` state into
-`.jspace/` in the current task workspace. Invoke it by its resolved Skill path while keeping
-the task workspace as the current directory.
+`.jspace/` in the current task workspace. Invoke it by its resolved Skill path while keeping the task workspace as the current directory.
 
 | Command | Purpose |
 |---|---|
@@ -124,43 +110,26 @@ the task workspace as the current directory.
 <python-command> <skill-root>/scripts/jspace.py resume
 ```
 
-The controller records and reports state. Solution choice remains with the model. It uses the
-Python standard library and writes working state only under the task's `.jspace/` directory.
+The controller records and reports state. Solution choice remains with the model. It uses the Python standard library and writes working state only under the task's `.jspace/` directory.
 
 ## Generic model integration
 
-An environment with a native Skill loader can install `j-space/` directly. For a chat or API
-environment, provide [`j-space/SKILL.md`](j-space/SKILL.md) as a system- or developer-level
-instruction and expose `modules/` and `references/` through file or retrieval tools.
+An environment with a native Skill loader can install `j-space/` directly. For a chat or API environment, provide [`j-space/SKILL.md`](j-space/SKILL.md) as a system- or developer-level instruction and expose `modules/` and `references/` through file or retrieval tools.
 
 Selected files should be retrieved on demand. Selective loading is part of the operating design.
 
 ## Benchmarks
 
-All values use the native score of the corresponding benchmark; higher is better. `—` means
-that no result is reported. HLE is separated into no-tool and tool-enabled conditions.
+All values use the native score of the corresponding benchmark; higher is better. `—` means that no result is reported. HLE is separated into no-tool and tool-enabled conditions.
 
 ### Evaluation context
 
-The J-Space evaluations on DeepSeek were configured with reference to the official DeepSeek
-Harness minimal-mode setup, with `max` reasoning effort, `temperature = 1.0`, and `top_p = 0.95`. J-Space
-participated across the inference-time workflow through workspace routing, state continuity,
+The J-Space evaluations on DeepSeek were configured with reference to the official DeepSeek Harness minimal-mode setup, with `max` reasoning effort, `temperature = 1.0`, and `top_p = 0.95`. J-Space participated across the inference-time workflow through workspace routing, state continuity,
 verification, and recovery.
 
-Results were collected within the project's available evaluation environment. Hardware
-conditions, process isolation, tool availability, and information-access boundaries form part
-of that context. J-Space tends to encourage more initiative and goal-directed exploration,
-making accessible artifacts and execution traces relevant to observed outcomes.
+Results were collected within the project's available evaluation environment. Hardware conditions, process isolation, tool availability, and information-access boundaries form part of that context. J-Space tends to encourage more initiative and goal-directed exploration, making accessible artifacts and execution traces relevant to observed outcomes.
 
-The table presents project-level benchmark records under these conditions. Comparator values
-retain the evaluation contexts published by their respective providers, and score variation
-across environments and harness configurations is expected. Source records include the
-[DeepSeek V4-Flash-0731 model card](https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731),
-[Z.ai](https://z.ai/)'s GLM-5.3 release-evaluation record, the
-[Kimi-K3 model card](https://huggingface.co/moonshotai/Kimi-K3), and Anthropic's
-[Claude Fable 5 & Claude Mythos 5 System Card](https://www-cdn.anthropic.com/2f9323abbcc4abe219577539efe19a623c9ca2bd/Claude%20Fable%205%20%26%20Claude%20Mythos%205%20System%20Card.pdf),
-which also reports its named comparator conditions. The GLM record is identified at provider
-level because no stable model-card URL accompanies the source record used here.
+The table presents project-level benchmark records under these conditions. Comparator values retain the evaluation contexts published by their respective providers, and score variation across environments and harness configurations is expected. Source records include the [DeepSeek V4-Flash-0731 model card](https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731), [Z.ai](https://z.ai/)'s GLM-5.3 release-evaluation record, the [Kimi-K3 model card](https://huggingface.co/moonshotai/Kimi-K3), and Anthropic's [Claude Fable 5 & Claude Mythos 5 System Card](https://www-cdn.anthropic.com/2f9323abbcc4abe219577539efe19a623c9ca2bd/Claude%20Fable%205%20%26%20Claude%20Mythos%205%20System%20Card.pdf), which also reports its named comparator conditions.
 
 ### Model comparison
 
@@ -178,12 +147,7 @@ level because no stable model-card URL accompanies the source record used here.
 
 ### Efficiency
 
-These task-level indices retain the same task and model conditions and each records one
-evaluation run. Control is the matched baseline; J-Space is the corresponding suite-assisted
-condition. Speed is benchmark score divided by elapsed time, where higher is better. Token cost
-is consumed tokens divided by benchmark score, where lower is better. Elapsed time and token
-count use fixed, uniform scaling coefficients across both conditions. The coefficients affect
-the displayed scale while the within-metric improvement ratio remains comparable.
+These task-level indices retain the same task and model conditions and each records one evaluation run. Control is the matched baseline; J-Space is the corresponding suite-assisted condition. Speed is benchmark score divided by elapsed time, where higher is better. Token cost is consumed tokens divided by benchmark score, where lower is better. Elapsed time and token count use fixed, uniform scaling coefficients across both conditions. The coefficients affect the displayed scale while the within-metric improvement ratio remains comparable.
 
 | Metric | Control | J-Space | Improvement |
 |---|---:|---:|---:|
@@ -195,12 +159,9 @@ Related evaluation material:
 
 ## Cross-model compatibility
 
-The operating effects have been reproduced across the DeepSeek, Qwen, GLM, GPT, and Claude
-model families. Effect size varies with base capability, context policy, tool harness, sampling
-configuration, and benchmark implementation.
+The operating effects have been reproduced across the DeepSeek, Qwen, GLM, GPT, and Claude model families. Effect size varies with base capability, context policy, tool harness, sampling configuration, and benchmark implementation.
 
-The portable unit is the protocol: workspace loading, selective routing, state externalization,
-verification, and recovery. It is independent of a vendor-specific tokenizer or model API.
+The portable unit is the protocol: workspace loading, selective routing, state externalization, verification, and recovery. It is independent of a vendor-specific tokenizer or model API.
 
 ## Project structure
 
@@ -224,8 +185,7 @@ J-Space-Cognition-Suite-V3.6/
         └── verify_suite.py         # authoring-time integrity check
 ```
 
-`SKILL.md` is the only registered entry. Modules and references are loaded on demand so the
-control system does not become its own source of context pressure.
+`SKILL.md` is the only registered entry. Modules and references are loaded on demand so the control system does not become its own source of context pressure.
 
 Maintainers can verify the package from its root:
 
@@ -236,13 +196,9 @@ Maintainers can verify the package from its root:
 
 ## Technical basis and scope
 
-J-Space uses the operational workspace terminology established by Anthropic's related
-interpretability research. Within this suite, first-person language is treated as control
-grammar: accessible state descriptions are bound to explicit actions, checks, and settles.
+J-Space uses the operational workspace terminology established by Anthropic's related interpretability research. Within this suite, first-person language is treated as control grammar: accessible state descriptions are bound to explicit actions, checks, and settles.
 
-The suite focuses on observable functional properties—reportability, deliberate maintenance,
-intermediate computation, broadcast, monitoring, and causal sensitivity. Detailed research
-interpretation, terminology, evidence boundaries, and sources are maintained in
+The suite focuses on observable functional properties—reportability, deliberate maintenance, intermediate computation, broadcast, monitoring, and causal sensitivity. Detailed research interpretation, terminology, evidence boundaries, and sources are maintained in
 [`j-space/references/j-space-science.md`](j-space/references/j-space-science.md).
 
 Design principle:
@@ -257,41 +213,9 @@ J-Space has progressed through:
 
 **V1 → V1.5 → V1.8 → V2 → V2.5 → V2.6 → V3 → V3.1 → V3.2 → V3.5 → V3.5Turbo → V3.6**
 
-The V3.6 package contains one entry, nine focused modules, three supporting references, an
-optional runtime controller, an authoring-time verifier, standard-library regression tests,
-three-platform CI, Apache-2.0 licensing, and machine-readable citation metadata.
-
-## Citation
-
-If you use J-Space in research, please cite the accompanying paper when it becomes available.
-For engineering use, cite this repository:
-
-> Tiger3807861189. (2026). *J-Space Cognition Suite V3.6* (Version 3.6). Zenodo.
-> https://doi.org/10.5281/zenodo.21977271
-
-```bibtex
-@software{j-space-cognition-suite,
-  author  = {Tiger3807861189},
-  title   = {{J-Space} Cognition Suite V3.6},
-  year    = {2026},
-  version = {3.6},
-  doi     = {10.5281/zenodo.21977271},
-  url     = {https://github.com/Tiger3807861189/J-Space-Cognition-Suite-V3.6}
-}
-```
-
-GitHub-compatible metadata is available in [`CITATION.cff`](CITATION.cff).
-The version DOI above identifies an immutable Zenodo snapshot; the all-releases concept DOI is
-[`10.5281/zenodo.21971181`](https://doi.org/10.5281/zenodo.21971181). A repository commit
-identifies the exact maintained file set between archival deposits, including its current
-licensing and third-party notices; the fixed snapshot is not a live mirror of those files.
+The V3.6 package contains one entry, nine focused modules, three supporting references, an optional runtime controller, an authoring-time verifier, standard-library regression tests, three-platform CI, Apache-2.0 licensing, and machine-readable citation metadata.
 
 ## License
 
-J-Space Cognition Suite is released under the
-[Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0). It permits use,
-modification, redistribution, and commercial integration under its notice and patent terms.
-See [`LICENSE`](LICENSE) for the complete terms. Quoted or summarized external source material
-remains subject to its source terms and is identified in
-[`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
-When redistributing only the runtime `j-space/` directory, carry both root files with it.
+J-Space Cognition Suite is released under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0). It permits use, modification, redistribution, and commercial integration under its notice and patent terms. See [`LICENSE`](LICENSE) for the complete terms. Quoted or summarized external source material remains subject to its source terms and is identified in [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md). When redistributing only the runtime `j-space/` directory, carry both root files with it.
+
