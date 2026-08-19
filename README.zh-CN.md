@@ -1,6 +1,6 @@
 # J-Space Cognition Suite V3.6
 
-[English](README.md)
+[English](README.md) | [日本語](README.ja-JP.md)
 
 [![DOI](https://zenodo.org/badge/1308234922.svg)](https://zenodo.org/badge/latestdoi/1308234922)
 
@@ -170,6 +170,7 @@ J-Space-Cognition-Suite-V3.6/
 ├── LICENSE                         # Apache License 2.0
 ├── README.md                       # 英文工程指南
 ├── README.zh-CN.md                 # 中文工程指南
+├── README.ja-JP.md                 # 日文工程指南
 ├── THIRD_PARTY_NOTICES.md          # 外部材料的归属与许可边界
 ├── tests/test_jspace.py            # 标准库控制器回归测试
 └── j-space/
