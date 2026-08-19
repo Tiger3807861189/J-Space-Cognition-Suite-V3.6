@@ -393,17 +393,16 @@ class JSpaceControllerTests(unittest.TestCase):
         self.assertEqual(from_stdin.stdout, from_file.stdout)
         self.assertEqual(from_stdin.stderr, from_file.stderr)
 
-    def test_integrity_checker_rejects_controller_anchor_drift(self):
+    def test_integrity_checker_rejects_duplicate_controller_anchors(self):
         copied_skill = Path(self.workspace.name) / "j-space"
         shutil.copytree(ROOT / "j-space", copied_skill)
         copied_controller = copied_skill / "scripts" / "jspace.py"
         text = copied_controller.read_text(encoding="utf-8")
         text = text.replace(
-            "Everything fluent and automatic runs below it",
-            "Fluent processing runs below it",
+            "SHIFTS = ",
+            'PREMISE = "stale copy"\n\nSHIFTS = ',
             1,
         )
-        text = text.replace("its bound action never happened", "its move never happened", 1)
         copied_controller.write_text(text, encoding="utf-8")
 
         checked = subprocess.run(
@@ -415,8 +414,33 @@ class JSpaceControllerTests(unittest.TestCase):
             check=False,
         )
         self.assertEqual(checked.returncode, 1, checked.stdout + checked.stderr)
-        self.assertIn("PREMISE differs from SKILL.md", checked.stdout)
-        self.assertIn("INVARIANTS differ from SKILL.md", checked.stdout)
+        self.assertIn("PREMISE must not be duplicated", checked.stdout)
+
+    def test_resume_reads_premise_from_skill_md(self):
+        copied_skill = Path(self.workspace.name) / "j-space-runtime"
+        shutil.copytree(ROOT / "j-space", copied_skill)
+        controller = copied_skill / "scripts" / "jspace.py"
+        entry = copied_skill / "SKILL.md"
+        marker = "ANCHOR-MARKER-ONLY-FOR-TEST"
+        entry.write_text(
+            entry.read_text(encoding="utf-8").replace(
+                "Everything fluent and automatic runs below it",
+                marker,
+                1,
+            ),
+            encoding="utf-8",
+        )
+
+        resumed = subprocess.run(
+            [sys.executable, str(controller), "resume"],
+            cwd=self.workspace.name,
+            text=True,
+            encoding="utf-8",
+            capture_output=True,
+            check=False,
+        )
+        self.assertEqual(resumed.returncode, 0, resumed.stdout + resumed.stderr)
+        self.assertIn(marker, resumed.stdout)
 
     def test_integrity_checker_requires_nonempty_unique_frontmatter_fields(self):
         for label, transform, expected in (

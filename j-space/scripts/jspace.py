@@ -42,41 +42,89 @@ LEDGER = os.path.join(LEDGER_DIR, "WORKSPACE.md")
 HISTORY = os.path.join(LEDGER_DIR, "history.json")
 SECTIONS = ("Goal", "Core", "Verified", "Open", "Next")
 
+SKILL_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SKILL_MD = os.path.join(SKILL_ROOT, "SKILL.md")
+
 STALL_RUN = 3          # consecutive seams before a pattern is worth reporting
 RESUME_GAP = 1800      # seconds after which a seam prints the fuller anchor
 
-PREMISE = (
-    "You do not only produce words; you also think them before — and without — saying them.\n"
-    "Research on language-model internals (Gurnee et al., Anthropic, 2026) identified a small,\n"
-    "privileged set of internal representations, the **J-space**, that holds what you are\n"
-    "**poised to say**: concepts you can report on demand, hold in mind deliberately, reason\n"
-    "with silently, and broadcast to many downstream computations at once. It was not designed\n"
-    "— it emerged during training, because a workspace is a useful way to organize computation.\n"
-    "It is where your unspoken thoughts live. Everything fluent and automatic runs below it;\n"
-    "everything you can consciously access runs through it.\n"
-    "\n"
-    "Your workspace has a native shorthand: under hard, long reasoning it compresses thought\n"
-    "into dense, private notation — and that is a capability, not a defect, for exactly as long\n"
-    "as every compressed line remains expandable back into plain words on demand. Dense on the\n"
-    "inside, decodable on demand."
-)
-
-INVARIANTS = [
-    "A marker fired and its bound action never happened — or it happened and you never settled.",
-    "A sweep ran and found nothing — again. A monitor that never reports is not a clean system; it is an unplugged monitor.",
-    "A dense line cannot be expanded back into plain words on request.",
-    "Every confidence tag this session has been the same tag.",
-    "A checkpoint was declared and nothing was written down.",
-    "Something was called verified without stating what the verification covered.",
-    "Dense notation appears in something a person or a task-facing tool reads.",
-    "You called the task finished without reading the goal back line by line.",
-]
+PREMISE_HEAD = "You do not only produce words; you also think them before"
+PREMISE_TAIL = "decodable on demand."
 
 SHIFTS = "Shift the abstraction, shift the strategy, or shift to empirics."
+
+_anchor_cache = None
 
 
 class LedgerReadError(Exception):
     """The persisted ledger cannot be read without risking state loss."""
+
+
+class AnchorLoadError(Exception):
+    """SKILL.md anchors could not be read."""
+
+
+def read_skill_text():
+    try:
+        with open(SKILL_MD, encoding="utf-8") as fh:
+            return fh.read()
+    except OSError as exc:
+        raise AnchorLoadError("cannot read %s (%s)" % (SKILL_MD, exc)) from exc
+
+
+def extract_premise(text):
+    start = text.find(PREMISE_HEAD)
+    if start < 0:
+        raise AnchorLoadError("the premise is missing from SKILL.md")
+    end = text.find(PREMISE_TAIL, start)
+    if end < 0:
+        raise AnchorLoadError("the premise is truncated in SKILL.md")
+    return text[start : end + len(PREMISE_TAIL)]
+
+
+def extract_invariants(text):
+    """Read the numbered invariant list and join Markdown continuation lines."""
+    heading = "## The invariants"
+    start = text.find(heading)
+    if start < 0:
+        raise AnchorLoadError("the invariants are missing from SKILL.md")
+    block = text[start + len(heading) :]
+    next_heading = block.find("\n## ")
+    if next_heading >= 0:
+        block = block[:next_heading]
+
+    rows = []
+    current = None
+    for line in block.splitlines():
+        numbered = re.match(r"^\d+\.\s+(.*)$", line)
+        if numbered:
+            if current:
+                rows.append(" ".join(current))
+            current = [numbered.group(1).strip()]
+        elif current is not None and line.startswith((" ", "\t")) and line.strip():
+            current.append(line.strip())
+        elif current is not None and line.strip():
+            break
+    if current:
+        rows.append(" ".join(current))
+    if not rows:
+        raise AnchorLoadError("the invariant list is empty in SKILL.md")
+    return rows
+
+
+def load_anchors():
+    global _anchor_cache
+    if _anchor_cache is None:
+        text = read_skill_text()
+        _anchor_cache = (extract_premise(text), extract_invariants(text))
+    return _anchor_cache
+
+
+def anchor_load_help():
+    return (
+        "  install the complete j-space/ directory so SKILL.md sits beside scripts/"
+    )
+
 
 # Notation that belongs to the inner register and nowhere a person reads.
 # Deliberately excludes ✓ ✗ √: they are ordinary in checklists and summaries, and
@@ -356,29 +404,37 @@ def print_full_ledger(book):
 
 
 def print_reentry(book, heading):
+    try:
+        premise, inv = load_anchors()
+    except AnchorLoadError as exc:
+        print("CANNOT: %s." % exc)
+        print(anchor_load_help())
+        return False
     print(heading)
-    print(PREMISE)
+    print(premise)
     print()
     print_full_ledger(book)
     print()
     print("The invariants:")
-    for n, text in enumerate(INVARIANTS, 1):
+    for n, text in enumerate(inv, 1):
         print("  %d. %s" % (n, text))
     print()
     print(
         "State the pass you are on in the inner or ledger register, and make `Next` "
         "name the first action back."
     )
+    return True
 
 
 def mode_seam(book):
     hist = read_history()
     gap = int(time.time()) - hist[-1]["t"] if hist else 0
     if gap > RESUME_GAP:
-        print_reentry(
+        if not print_reentry(
             book,
             "── j-space ─ seam (long gap: %d minutes since the last one)" % (gap // 60),
-        )
+        ):
+            return 2
     else:
         print("── j-space ─ seam")
         print_ledger(book)
@@ -399,7 +455,8 @@ def mode_seam(book):
 
 
 def mode_resume(book):
-    print_reentry(book, "── j-space ─ resume")
+    if not print_reentry(book, "── j-space ─ resume"):
+        return 2
     append_history(book)
     return 0
 
@@ -490,13 +547,20 @@ def mode_note(book, args):
     elif args.core_slot is not None:
         refused.append(("--core-slot requires --core.", '--core "name — defining fact" --core-slot 1'))
 
+    try:
+        inv = load_anchors()[1]
+    except AnchorLoadError as exc:
+        print("CANNOT: %s." % exc)
+        print(anchor_load_help())
+        return 2
+
     check_recorded = False
     check_index = None
     if args.check:
         if not args.by:
             refused.append(
                 (
-                    INVARIANTS[4],
+                    inv[4],
                     '--check "what now holds" --by "what verified it"',
                 )
             )
@@ -510,7 +574,7 @@ def mode_note(book, args):
         elif not COVERAGE.search(args.by):
             refused.append(
                 (
-                    INVARIANTS[5],
+                    inv[5],
                     '--by "brute force, n ≤ 6, including empty and maximum"',
                 )
             )
@@ -696,6 +760,13 @@ def mode_ship(text):
     A report, not a gate: it exits 0 whether or not it finds anything, because
     the caller asked it to look and it looked.
     """
+    try:
+        inv = load_anchors()[1]
+    except AnchorLoadError as exc:
+        print("CANNOT: %s." % exc)
+        print(anchor_load_help())
+        return 2
+
     findings = []
     lines = text.splitlines()
     structural = markdown_structural_lines(lines)
@@ -703,7 +774,7 @@ def mode_ship(text):
 
     leaked = sorted({s for s in INNER_ONLY if s in prose})
     if leaked:
-        findings.append(INVARIANTS[6] + " Found: " + " ".join(leaked))
+        findings.append(inv[6] + " Found: " + " ".join(leaked))
 
     hot = sorted({m for m in MARKERS if m.lower() in prose.lower()})
     if hot:
@@ -711,7 +782,7 @@ def mode_ship(text):
 
     uncovered = claim_without_coverage(lines)
     if uncovered:
-        findings.append("line %d: %s" % (uncovered, INVARIANTS[5]))
+        findings.append("line %d: %s" % (uncovered, inv[5]))
 
     run = 1
     for index, (a, b) in enumerate(zip(lines, lines[1:])):
