@@ -7,9 +7,10 @@ Checks, in order of how badly each one breaks the suite:
 
   1. Exactly one file in the tree carries skill frontmatter. More than one and the
      harness registers more than one command.
-  2. The J-Space Premise is byte-identical in SKILL.md, all nine modules and
-     the controller; the controller's invariants also match SKILL.md. Verbatim
-     recurrence is the repetition schedule; a paraphrase silently disables it.
+  2. The J-Space Premise is byte-identical in SKILL.md and all nine modules. The
+     controller reads premise and invariants from SKILL.md at runtime and must not
+     carry duplicate literals. Verbatim recurrence is the repetition schedule; a
+     paraphrase silently disables it.
   3. Every module and reference is present and reachable from the entry file.
   4. No version talk anywhere in the skill text. The text addresses the model,
      never the maintainer.
@@ -109,30 +110,23 @@ def extract_invariants(text, where):
     return rows
 
 
-def controller_constants(path, where):
-    """Read literal controller anchors without importing or executing the script."""
+def controller_must_not_duplicate_anchors(path, where):
+    """The controller reads anchors from SKILL.md; duplicated literals drift silently."""
     try:
         tree = ast.parse(read(path), filename=path)
     except (OSError, SyntaxError, UnicodeError) as exc:
-        fail(where, "cannot parse controller constants: %s" % exc)
-        return {}
-
-    values = {}
-    wanted = {"PREMISE", "INVARIANTS"}
+        fail(where, "cannot parse controller: %s" % exc)
+        return
     for node in tree.body:
         if not isinstance(node, ast.Assign) or len(node.targets) != 1:
             continue
         target = node.targets[0]
-        if not isinstance(target, ast.Name) or target.id not in wanted:
-            continue
-        try:
-            values[target.id] = ast.literal_eval(node.value)
-        except (ValueError, TypeError):
-            fail(where, "%s must remain a literal" % target.id)
-    missing = sorted(wanted - set(values))
-    if missing:
-        fail(where, "controller anchors missing: %s" % ", ".join(missing))
-    return values
+        if isinstance(target, ast.Name) and target.id in ("PREMISE", "INVARIANTS"):
+            fail(
+                where,
+                "%s must not be duplicated — the controller reads anchors from SKILL.md"
+                % target.id,
+            )
 
 
 def main():
@@ -189,11 +183,7 @@ def main():
     if not os.path.exists(controller_path):
         fail(controller_rel, "missing")
     else:
-        anchors = controller_constants(controller_path, controller_rel)
-        if canonical and anchors.get("PREMISE") != canonical:
-            fail(controller_rel, "PREMISE differs from SKILL.md — it must be byte-identical")
-        if canonical_invariants and anchors.get("INVARIANTS") != canonical_invariants:
-            fail(controller_rel, "INVARIANTS differ from SKILL.md")
+        controller_must_not_duplicate_anchors(controller_path, controller_rel)
 
     for name in MODULES:
         rel = os.path.join("modules", name + ".md")
@@ -264,7 +254,7 @@ def main():
         return 1
     print(
         "verify_suite: clean — one entry, one premise, nine modules, "
-        "controller anchors aligned, no version talk."
+        "controller reads SKILL.md anchors, no version talk."
     )
     return 0
 
